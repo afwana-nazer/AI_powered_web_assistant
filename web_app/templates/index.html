@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Web Assistant</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .header-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .chat-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .response-area {
+            margin-top: 20px;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .history-item {
+            border-left: 3px solid #764ba2;
+            transition: all 0.3s;
+        }
+
+        .history-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .api-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .api-status.active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .api-status.inactive {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6 mb-0">
+                        <i class="bi bi-robot"></i> AI Web Assistant
+                    </h1>
+                    <p class="text-muted mb-0">Powered by Google Gemini</p>
+                </div>
+                <div class="text-end">
+                    {% if has_api_key %}
+                    <span class="api-status active">
+                        <i class="bi bi-check-circle-fill"></i> API Active
+                    </span>
+                    {% else %}
+                    <span class="api-status inactive">
+                        <i class="bi bi-exclamation-triangle-fill"></i> Mock Mode
+                    </span>
+                    {% endif %}
+                    <br>
+                    <a href="/config" class="btn btn-sm btn-outline-secondary mt-2">
+                        <i class="bi bi-gear"></i> Configure API
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-box">
+            <form method="POST" action="/">
+                <div class="mb-3">
+                    <label for="user_input" class="form-label">
+                        <i class="bi bi-chat-dots"></i> Ask me anything:
+                    </label>
+                    <textarea class="form-control" id="user_input" name="user_input" rows="4"
+                        placeholder="Type your question here..." required></textarea>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-send-fill"></i> Get Answer
+                    </button>
+                </div>
+            </form>
+
+            {% if response %}
+            <div class="response-area">
+                <h5><i class="bi bi-robot"></i> AI Response:</h5>
+                <p class="mb-0">{{ response }}</p>
+            </div>
+            {% endif %}
+
+            {% if history %}
+            <div class="mt-5">
+                <h4><i class="bi bi-clock-history"></i> Conversation History</h4>
+                <ul class="list-group mt-3">
+                    {% for item in history|reverse %}
+                    <li class="list-group-item history-item">
+                        <strong><i class="bi bi-person-fill text-primary"></i> You:</strong> {{ item.query }}<br>
+                        <strong><i class="bi bi-robot text-success"></i> AI:</strong> {{ item.response }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
