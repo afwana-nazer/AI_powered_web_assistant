@@ -1,10 +1,22 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "my_ai_lib"
+name = "my-ai-lib"
 version = "0.1.0"
 description = "Custom AI helper library"
-authors = [{ name = "Afwana Nazer" }]
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+  { name = "Afwana Nazer", email = "afwananazer@gmail.com" }
+]
+license = { text = "MIT" }
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
 dependencies = []
