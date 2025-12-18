@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template, request, session, redirect, url_for
-from my_ai_lib import AIHelper
+from ai_library_pkg.my_ai_lib import AIHelper
 import os
 from dotenv import load_dotenv
 
