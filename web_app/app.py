@@ -1,8 +1,6 @@
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'ai_library_pkg'))
+
 from flask import Flask, render_template, request, session, redirect, url_for
-from ai_library_pkg import AIHelper
+from my_ai_lib import AIHelper
 import os
 from dotenv import load_dotenv
 
